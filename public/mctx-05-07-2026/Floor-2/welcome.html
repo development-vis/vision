@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>Montgomery County — Welcome (Floor 2)</title>
+<style>* { margin:0; padding:0; box-sizing:border-box; }
+html { width:1080px; height:1920px; overflow:hidden; background:#1F334C; }
+body { width:1080px; height:1920px; overflow:hidden; background:#1F334C;
+       font-family:'Barlow',sans-serif; color:#fff; }</style>
+</head>
+<body>
+<div style="position:fixed;top:0;left:0;width:1080px;height:128px;background:linear-gradient(160deg,#0b1929 0%,#182d44 100%);border-bottom:4px solid #C8971F;display:flex;align-items:center;justify-content:space-between;padding:0 44px;box-sizing:border-box;z-index:100;">
+  <div style="display:flex;align-items:center;gap:20px;">
+    <img src="images/mctx_logo.png" width="84" height="84" style="width:84px;height:84px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,.7));flex-shrink:0;" alt="Seal" loading="eager">
+    <div>
+      <div style="font-family:Playfair Display,serif;font-size:2rem;font-weight:900;color:#fff;line-height:1.1;">Montgomery County</div>
+      <div style="font-size:.78rem;font-weight:500;color:#E8B840;letter-spacing:2px;text-transform:uppercase;margin-top:4px;">Alan B. Sadler Commissioners Court Building</div>
+    </div>
+  </div>
+  <div style="text-align:right;">
+    <div id="hdrClock" style="font-family:Barlow Condensed,sans-serif;font-size:3rem;font-weight:800;color:#fff;letter-spacing:5px;line-height:1;">--:--:--</div>
+    <div style="font-family:Barlow Condensed,sans-serif;font-size:.62rem;font-weight:700;color:#C8971F;letter-spacing:4px;text-transform:uppercase;margin-top:2px;">Local Time</div>
+    <div id="hdrDate" style="font-size:.7rem;color:#7a90a8;letter-spacing:1px;margin-top:2px;"></div>
+  </div>
+</div>
+
+<!-- MIDDLE CONTENT: sits between header(128) and footer(110) -->
+<div style="position:absolute;top:128px;left:0;width:1080px;height:1682px;overflow:hidden;display:flex;flex-direction:column;">
+
+  <!-- Welcome band + directory button  h=88 -->
+  <div style="width:1080px;height:88px;flex-shrink:0;background:rgba(200,151,31,.1);border-bottom:1px solid rgba(200,151,31,.22);padding:0 44px;display:flex;align-items:center;justify-content:space-between;box-sizing:border-box;">
+    <div>
+      <div style="font-family:Playfair Display,serif;font-size:1.95rem;font-weight:900;color:#fff;">Welcome to the Building</div>
+      <div style="font-size:.82rem;color:#7a90a8;letter-spacing:1px;margin-top:3px;">Touch the directory or select a floor below</div>
+    </div>
+    <a href="directory.html" style="display:inline-flex;align-items:center;gap:10px;background:#C8971F;color:#0b1929;font-family:Barlow Condensed,sans-serif;font-size:1.15rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;padding:14px 30px;border-radius:10px;text-decoration:none;box-shadow:0 4px 18px rgba(200,151,31,.4);white-space:nowrap;flex-shrink:0;">&#9776;&nbsp; Floor Directory</a>
+  </div>
+
+  <!-- Social feed  h=726 -->
+  <div style="width:1080px;height:726px;flex-shrink:0;padding:14px 34px 10px;display:flex;flex-direction:column;gap:8px;box-sizing:border-box;">
+    <div style="font-family:Barlow Condensed,sans-serif;font-size:.75rem;font-weight:700;color:#C8971F;letter-spacing:5px;text-transform:uppercase;flex-shrink:0;">&#9670; County News &amp; Social Feed</div>
+    <div style="flex:1;border-radius:12px;overflow:hidden;border:3px solid rgba(200,151,31,.32);background:#0b1929;">
+      <iframe id="socialFeed" src="https://plugins.flockler.com/social-screen/1865158b2b50d7200e8de5e50c8951b3/1865585e3c100e2cd0ebb09c2f747570"
+        style="display:block;width:100%;height:100%;border:0;" scrolling="no" frameborder="0" allowfullscreen=""></iframe>
+    </div>
+  </div>
+
+  <!-- Quick floors  h=868 (1682-88-726=868) -->
+  <div style="width:1080px;flex:1;flex-shrink:0;padding:14px 34px 18px;display:flex;flex-direction:column;gap:15px;box-sizing:border-box;">
+  <div style="font-family:Barlow Condensed,sans-serif;font-size:.72rem;font-weight:700;color:#C8971F;letter-spacing:5px;text-transform:uppercase;flex-shrink:0;">&#9670; Quick Floor Access</div>
+  <a href="floor1.html" style="flex:1;display:flex;align-items:center;gap:24px;background:#ffffff;border:1px solid rgba(200,151,31,.3);border-left:8px solid #C8971F;border-radius:14px;padding:0 32px;text-decoration:none;box-shadow:0 4px 20px rgba(0,0,0,.25);"><div style="font-family:Barlow Condensed,sans-serif;font-size:5.5rem;font-weight:800;color:#C8971F;line-height:1;flex-shrink:0;width:68px;text-align:center;">1</div><div style="flex:1;padding:14px 0;"><div style="display:flex;align-items:center;gap:32px;margin-bottom:10px;"><div style="font-family:Barlow Condensed,sans-serif;font-size:2rem;font-weight:700;color:#0b1929;letter-spacing:2px;text-transform:uppercase;line-height:1;">First Floor</div></div><div style="font-size:1.05rem;color:#2a2a2a;font-weight:500;line-height:1.5;"><span style="font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:1.05rem;">100</span> &mdash; Permits</div><div style="font-size:1.05rem;color:#2a2a2a;font-weight:500;line-height:1.5;"><span style="font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:1.05rem;">101</span> &mdash; Environmental Health Administration</div><div style="font-size:1.05rem;color:#2a2a2a;font-weight:500;line-height:1.5;"><span style="font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:1.05rem;">102</span> &mdash; Montgomery County Fire Marshal</div><div style="font-size:1.05rem;color:#2a2a2a;font-weight:500;line-height:1.5;"><span style="font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:1.05rem;">103</span> &mdash; County Engineering</div><div style="font-size:1.05rem;color:#2a2a2a;font-weight:500;line-height:1.5;"><span style="font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:1.05rem;">103A</span> &mdash; County Engineering Plat</div></div><div style="flex-shrink:0;"><div style="background:#1a3050;color:#E8B840;border:2px solid rgba(200,151,31,.4);font-family:Barlow Condensed,sans-serif;font-size:1.3rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;text-align:center;padding:22px 36px;border-radius:12px;line-height:1;white-space:nowrap;">&#9658; Show Map</div></div></a><a href="floor2.html" style="flex:1;display:flex;align-items:center;gap:24px;background:linear-gradient(135deg,#C8971F 0%,#E8B840 100%);border:none;border-radius:14px;padding:0 32px;text-decoration:none;box-shadow:0 6px 32px rgba(200,151,31,.5);"><div style="font-family:Barlow Condensed,sans-serif;font-size:5.5rem;font-weight:800;color:#0b1929;line-height:1;flex-shrink:0;width:68px;text-align:center;">2</div><div style="flex:1;padding:14px 0;"><div style="display:flex;align-items:center;gap:32px;margin-bottom:10px;"><div style="font-family:Barlow Condensed,sans-serif;font-size:2rem;font-weight:700;color:#0b1929;letter-spacing:2px;text-transform:uppercase;line-height:1;">Second Floor</div><div style="background:#0b1929;color:#E8B840;font-family:Barlow Condensed,sans-serif;font-size:.72rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:5px;white-space:nowrap;">YOU ARE HERE</div></div><div style="font-size:1.05rem;color:#1a1a1a;font-weight:500;line-height:1.5;"><span style="font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:1.05rem;">200</span> &mdash; Community Development</div><div style="font-size:1.05rem;color:#1a1a1a;font-weight:500;line-height:1.5;"><span style="font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:1.05rem;">201</span> &mdash; County Treasurer</div><div style="font-size:1.05rem;color:#1a1a1a;font-weight:500;line-height:1.5;"><span style="font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:1.05rem;">202</span> &mdash; Risk Management</div><div style="font-size:1.05rem;color:#1a1a1a;font-weight:500;line-height:1.5;"><span style="font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:1.05rem;">204</span> &mdash; Payroll</div><div style="font-size:1.05rem;color:#1a1a1a;font-weight:500;line-height:1.5;"><span style="font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:1.05rem;">205</span> &mdash; County Auditor</div></div><div style="flex-shrink:0;"><div style="background:#0b1929;color:#E8B840;font-family:Barlow Condensed,sans-serif;font-size:1.3rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;text-align:center;padding:22px 36px;border-radius:12px;line-height:1;white-space:nowrap;">&#9679; Show Map</div></div></a><a href="floor3.html" style="flex:1;display:flex;align-items:center;gap:24px;background:#ffffff;border:1px solid rgba(200,151,31,.3);border-left:8px solid #C8971F;border-radius:14px;padding:0 32px;text-decoration:none;box-shadow:0 4px 20px rgba(0,0,0,.25);"><div style="font-family:Barlow Condensed,sans-serif;font-size:5.5rem;font-weight:800;color:#C8971F;line-height:1;flex-shrink:0;width:68px;text-align:center;">3</div><div style="flex:1;padding:14px 0;"><div style="display:flex;align-items:center;gap:32px;margin-bottom:10px;"><div style="font-family:Barlow Condensed,sans-serif;font-size:2rem;font-weight:700;color:#0b1929;letter-spacing:2px;text-transform:uppercase;line-height:1;">Third Floor</div></div><div style="font-size:1.05rem;color:#2a2a2a;font-weight:500;line-height:1.5;"><span style="font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:1.05rem;">300</span> &mdash; County Attorney</div></div><div style="flex-shrink:0;"><div style="background:#1a3050;color:#E8B840;border:2px solid rgba(200,151,31,.4);font-family:Barlow Condensed,sans-serif;font-size:1.3rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;text-align:center;padding:22px 36px;border-radius:12px;line-height:1;white-space:nowrap;">&#9658; Show Map</div></div></a><a href="floor4.html" style="flex:1;display:flex;align-items:center;gap:24px;background:#ffffff;border:1px solid rgba(200,151,31,.3);border-left:8px solid #C8971F;border-radius:14px;padding:0 32px;text-decoration:none;box-shadow:0 4px 20px rgba(0,0,0,.25);"><div style="font-family:Barlow Condensed,sans-serif;font-size:5.5rem;font-weight:800;color:#C8971F;line-height:1;flex-shrink:0;width:68px;text-align:center;">4</div><div style="flex:1;padding:14px 0;"><div style="display:flex;align-items:center;gap:32px;margin-bottom:10px;"><div style="font-family:Barlow Condensed,sans-serif;font-size:2rem;font-weight:700;color:#0b1929;letter-spacing:2px;text-transform:uppercase;line-height:1;">Fourth Floor</div></div><div style="font-size:1.05rem;color:#2a2a2a;font-weight:500;line-height:1.5;"><span style="font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:1.05rem;">400</span> &mdash; Human Resources</div><div style="font-size:1.05rem;color:#2a2a2a;font-weight:500;line-height:1.5;"><span style="font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:1.05rem;">401</span> &mdash; County Judge</div><div style="font-size:1.05rem;color:#2a2a2a;font-weight:500;line-height:1.5;"><span style="font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:1.05rem;">402</span> &mdash; Commissioner's Court</div><div style="font-size:1.05rem;color:#2a2a2a;font-weight:500;line-height:1.5;"><span style="font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:1.05rem;">404</span> &mdash; Budget Department</div><div style="font-size:1.05rem;color:#2a2a2a;font-weight:500;line-height:1.5;"><span style="font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:1.05rem;">405</span> &mdash; County Purchasing</div></div><div style="flex-shrink:0;"><div style="background:#1a3050;color:#E8B840;border:2px solid rgba(200,151,31,.4);font-family:Barlow Condensed,sans-serif;font-size:1.3rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;text-align:center;padding:22px 36px;border-radius:12px;line-height:1;white-space:nowrap;">&#9658; Show Map</div></div></a>
+</div>
+
+</div><!-- end middle -->
+
+<div style="position:fixed;bottom:0;left:0;width:1080px;height:110px;background:linear-gradient(135deg,#0a1724 0%,#132236 55%,#192d47 100%);border-top:3px solid #C8971F;display:flex;align-items:center;padding:0 36px;box-sizing:border-box;gap:0;z-index:100;">
+  <!-- current weather -->
+  <div style="display:flex;align-items:center;gap:11px;flex-shrink:0;">
+    <span style="font-size:2.1rem;line-height:1;">&#x26C5;</span>
+    <span style="font-family:Barlow Condensed,sans-serif;font-size:2.3rem;font-weight:800;color:#E8B840;letter-spacing:2px;line-height:1;">70&deg;F</span>
+    <div style="display:flex;flex-direction:column;gap:1px;">
+      <span style="font-size:.82rem;font-weight:600;color:#fff;letter-spacing:1px;">Partly Sunny</span>
+      <span style="font-size:.68rem;color:#7a90a8;letter-spacing:1.5px;text-transform:uppercase;">Conroe, TX</span>
+    </div>
+  </div>
+  <!-- separator -->
+  <div style="width:2px;height:52px;background:rgba(200,151,31,.3);margin:0 18px;border-radius:2px;flex-shrink:0;"></div>
+  <!-- 5-day forecast -->
+  <div style="display:flex;gap:0;flex:1;justify-content:space-evenly;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="font-family:Barlow Condensed,sans-serif;font-size:.62rem;font-weight:700;color:#7a90a8;letter-spacing:2px;">WED</span><span style="font-size:1.1rem;">&#x26C5;</span><span style="font-family:Barlow Condensed,sans-serif;font-size:.9rem;font-weight:700;color:#E8B840;">80&deg;</span><span style="font-size:.62rem;color:#7a90a8;">58&deg;</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="font-family:Barlow Condensed,sans-serif;font-size:.62rem;font-weight:700;color:#7a90a8;letter-spacing:2px;">THU</span><span style="font-size:1.1rem;">&#9728;</span><span style="font-family:Barlow Condensed,sans-serif;font-size:.9rem;font-weight:700;color:#E8B840;">84&deg;</span><span style="font-size:.62rem;color:#7a90a8;">62&deg;</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="font-family:Barlow Condensed,sans-serif;font-size:.62rem;font-weight:700;color:#7a90a8;letter-spacing:2px;">FRI</span><span style="font-size:1.1rem;">&#x1F326;</span><span style="font-family:Barlow Condensed,sans-serif;font-size:.9rem;font-weight:700;color:#E8B840;">80&deg;</span><span style="font-size:.62rem;color:#7a90a8;">65&deg;</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="font-family:Barlow Condensed,sans-serif;font-size:.62rem;font-weight:700;color:#7a90a8;letter-spacing:2px;">SAT</span><span style="font-size:1.1rem;">&#9728;</span><span style="font-family:Barlow Condensed,sans-serif;font-size:.9rem;font-weight:700;color:#E8B840;">80&deg;</span><span style="font-size:.62rem;color:#7a90a8;">60&deg;</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="font-family:Barlow Condensed,sans-serif;font-size:.62rem;font-weight:700;color:#7a90a8;letter-spacing:2px;">SUN</span><span style="font-size:1.1rem;">&#x26C5;</span><span style="font-family:Barlow Condensed,sans-serif;font-size:.9rem;font-weight:700;color:#E8B840;">76&deg;</span><span style="font-size:.62rem;color:#7a90a8;">57&deg;</span></div>
+  </div>
+  <!-- separator -->
+  <div style="width:2px;height:52px;background:rgba(200,151,31,.3);margin:0 18px;border-radius:2px;flex-shrink:0;"></div>
+  <!-- nav button -->
+  <a href="directory.html" style="display:flex;align-items:center;gap:8px;background:rgba(200,151,31,.2);border:2px solid rgba(200,151,31,.6);color:#E8B840;font-family:Barlow Condensed,sans-serif;font-size:.95rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:14px 22px;border-radius:10px;text-decoration:none;flex-shrink:0;white-space:nowrap;">&#9776;&nbsp;Directory</a>
+</div>
+<script>
+(function(){
+  function tick(){
+    var n=new Date();
+    var ct=new Date(n.toLocaleString('en-US',{timeZone:'America/Chicago'}));
+    var h=ct.getHours(),ampm=h>=12?'PM':'AM',h12=h%12||12;
+    var t=String(h12).padStart(2,'0')+':'+String(ct.getMinutes()).padStart(2,'0')+':'+String(ct.getSeconds()).padStart(2,'0')+' '+ampm;
+    var el=document.getElementById('hdrClock');if(el)el.textContent=t;
+    var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var ds=document.getElementById('hdrDate');
+    if(ds)ds.textContent=days[n.getDay()]+', '+months[n.getMonth()]+' '+n.getDate()+', '+n.getFullYear();
+  }
+  tick();setInterval(tick,1000);
+})();
+</script>
+<script>
+(function(){
+  setInterval(function(){
+    var f=document.getElementById('socialFeed');
+    if(f){ f.src=f.src; }
+  }, 900000);
+})();
+</script>
+</body></html>

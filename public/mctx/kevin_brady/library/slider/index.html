@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Library Kiosk</title>
+<style>
+  html, body {
+    margin: 0; padding: 0;
+    width: 1080px; height: 1920px;
+    background: #000;
+    color: #fff;
+    font-family: "Segoe UI", Arial, sans-serif;
+    overflow: hidden;
+  }
+
+  /* ---------- SLIDESHOW (top) ---------- */
+  #stage {
+    position: absolute;
+    top: 0; left: 0;
+    width: 1080px; height: 1760px;
+    background: #000;
+    overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 1080px; height: 1760px;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+    object-fit: contain;
+    background: #000;
+  }
+  .slide.active { opacity: 1; }
+
+  /* ---------- BOTTOM BAR (time + weather) ---------- */
+  #bottom-bar {
+    position: absolute;
+    top: 1760px; left: 0;
+    width: 1080px; height: 160px;
+    display: flex;
+    z-index: 10;
+  }
+
+  /* TIME (left half) */
+  #clock-panel {
+    width: 540px; height: 160px;
+    background: linear-gradient(135deg, #1a3a5f 0%, #0b2545 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 6px 10px;
+    box-shadow: 0 -4px 14px rgba(0,0,0,0.4);
+  }
+  #time-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+  }
+  #time {
+    font-size: 70px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -2px;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.45);
+  }
+  #ampm {
+    font-size: 26px;
+    font-weight: 700;
+    margin-left: 8px;
+    color: #ffd56b;
+  }
+  #date {
+    font-size: 18px;
+    font-weight: 500;
+    color: #d6e2ec;
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+  #tz {
+    font-size: 11px;
+    color: #8fa5b8;
+    margin-top: 3px;
+    letter-spacing: 2px;
+  }
+
+  /* WEATHER (right half) */
+  #weather-panel {
+    width: 540px; height: 160px;
+    background: linear-gradient(135deg, #ff7a00 0%, #ffb347 50%, #ffd56b 100%);
+    color: #2b1700;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 6px 12px;
+    box-shadow: 0 -4px 14px rgba(0,0,0,0.4);
+  }
+  #weather-loc {
+    font-size: 14px;
+    font-weight: 700;
+    color: #6b3000;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+  }
+  #weather-now {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  #weather-icon {
+    font-size: 50px;
+    line-height: 1;
+    color: #3a1900;
+  }
+  #weather-temp {
+    font-size: 56px;
+    font-weight: 800;
+    line-height: 1;
+    color: #3a1900;
+  }
+  #weather-cond {
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 1px;
+  }
+  #weather-hi-lo {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+  #weather-tomorrow {
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 2px;
+  }
+  #weather-tomorrow .label { font-weight: 700; }
+  #weather-updated { display: none; }
+
+  /* ---------- ACCENT STRIP ---------- */
+  #footer {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 1080px; height: 4px;
+    background: linear-gradient(90deg, #ff7a00, #ffd56b, #ff7a00);
+    z-index: 11;
+  }
+</style>
+</head>
+<body>
+
+<div id="stage"></div>
+
+<div id="bottom-bar">
+  <div id="clock-panel">
+    <div id="time-row">
+      <span id="time">--:--</span>
+      <span id="ampm">--</span>
+    </div>
+    <div id="date">Loading&hellip;</div>
+    <div id="tz">CENTRAL TIME</div>
+  </div>
+
+  <div id="weather-panel">
+    <div id="weather-loc">The Woodlands, TX</div>
+    <div id="weather-now">
+      <div id="weather-icon">--</div>
+      <div id="weather-temp">--&deg;</div>
+    </div>
+    <div id="weather-cond">Loading weather&hellip;</div>
+    <div id="weather-hi-lo">Today &nbsp; H: --&deg; &nbsp; L: --&deg;</div>
+    <div id="weather-tomorrow"><span class="label">Tomorrow:</span> --</div>
+    <div id="weather-updated">&nbsp;</div>
+  </div>
+</div>
+
+<div id="footer"></div>
+
+<script>
+/* ============================================================
+   CONFIG
+   ============================================================ */
+
+// Default seconds per still image
+var IMG_SECS = 8;
+
+var PLAYLIST = [
+  // -------- Summer Reading 2026 promos (lead-in) --------
+  { type: "video", src: "video/2026 SR Promo 1.mp4" },
+  { type: "video", src: "video/2026 SR Promo 2.mp4" },
+  { type: "image", src: "video/2026 SR Promo 3.png", seconds: IMG_SECS },
+  { type: "video", src: "video/2026 SR Promo 4.mp4" },
+
+  // -------- Library Services --------
+  { type: "image", src: "images/Library Services - Facebook.png",            seconds: IMG_SECS },
+  { type: "image", src: "images/Library Services - Flipster.png",            seconds: IMG_SECS },
+  { type: "image", src: "images/Library Services - LIbby.png",               seconds: IMG_SECS },
+  { type: "image", src: "images/Library Services - Library Card.png",        seconds: IMG_SECS },
+  { type: "image", src: "images/Library Services - MCMLS App.png",           seconds: IMG_SECS },
+  { type: "video", src: "images/Library Services - Transparent Language.mp4" },
+
+  // -------- Adult programs --------
+  { type: "image", src: "images/Adult - Crafting Corner.png",     seconds: IMG_SECS },
+  { type: "image", src: "images/Adult - Culinary Book Club.png",  seconds: IMG_SECS },
+  { type: "image", src: "images/Adult - Fiction Book Club.png",   seconds: IMG_SECS },
+  { type: "image", src: "images/Adult - Home and Garden.png",     seconds: IMG_SECS },
+  { type: "image", src: "images/Adult - Mah Jongg.png",           seconds: IMG_SECS },
+  { type: "image", src: "images/Adult - Mystery Book Club.png",   seconds: IMG_SECS },
+  { type: "image", src: "images/Adult - Walking Book Club.png",   seconds: IMG_SECS },
+
+  // -------- Teen programs --------
+  { type: "image", src: "images/Teen - Bullet Journaling.png", seconds: IMG_SECS },
+  { type: "image", src: "images/Teen - Manga Meetup.png",      seconds: IMG_SECS },
+  { type: "image", src: "images/Teen - Planet Yum.png",        seconds: IMG_SECS },
+
+  // -------- Kids programs --------
+  { type: "image", src: "images/Kids - Baby and Me.png",        seconds: IMG_SECS },
+  { type: "image", src: "images/Kids - LEGO with Lexi.png",     seconds: IMG_SECS },
+  { type: "image", src: "images/Kids - STEAM Crafternoon.png",  seconds: IMG_SECS },
+
+  // -------- All Ages --------
+  { type: "image", src: "images/All Ages - Family Fun Zone.png", seconds: IMG_SECS }
+];
+
+// The Woodlands, TX
+var LAT = 30.1658;
+var LON = -95.4613;
+
+// Weather refresh every 10 minutes
+var WEATHER_REFRESH_MS = 10 * 60 * 1000;
+
+/* ============================================================
+   CLOCK  (America/Chicago, DST-aware)
+   ============================================================ */
+
+function updateClock() {
+  var now = new Date();
+  try {
+    var parts = new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/Chicago",
+      hour: "numeric", minute: "2-digit", hour12: true,
+      weekday: "long", month: "long", day: "numeric", year: "numeric"
+    }).formatToParts(now);
+
+    var m = {};
+    for (var i = 0; i < parts.length; i++) m[parts[i].type] = parts[i].value;
+
+    document.getElementById("time").textContent = m.hour + ":" + m.minute;
+    document.getElementById("ampm").textContent = (m.dayPeriod || "").toUpperCase();
+    document.getElementById("date").textContent =
+      m.weekday + ", " + m.month + " " + m.day + ", " + m.year;
+  } catch (e) {
+    document.getElementById("time").textContent = now.toLocaleTimeString();
+    document.getElementById("date").textContent = now.toLocaleDateString();
+  }
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+/* ============================================================
+   WEATHER  (Open-Meteo - no API key)
+   ============================================================ */
+
+var WMO = {
+  0:["☀","Clear"], 1:["☀","Mainly Clear"], 2:["⛅","Partly Cloudy"], 3:["☁","Overcast"],
+  45:["☁","Fog"], 48:["☁","Fog"],
+  51:["☔","Light Drizzle"], 53:["☔","Drizzle"], 55:["☔","Heavy Drizzle"],
+  56:["☔","Freezing Drizzle"], 57:["☔","Freezing Drizzle"],
+  61:["☔","Light Rain"], 63:["☔","Rain"], 65:["☔","Heavy Rain"],
+  66:["☔","Freezing Rain"], 67:["☔","Freezing Rain"],
+  71:["❄","Light Snow"], 73:["❄","Snow"], 75:["❄","Heavy Snow"], 77:["❄","Snow Grains"],
+  80:["☔","Rain Showers"], 81:["☔","Rain Showers"], 82:["⛈","Heavy Showers"],
+  85:["❄","Snow Showers"], 86:["❄","Heavy Snow Showers"],
+  95:["⚡","Thunderstorm"], 96:["⛈","Thunderstorm w/ Hail"], 99:["⛈","Severe Thunderstorm"]
+};
+function wmoMeta(c) { return WMO[c] || ["☀", "--"]; }
+
+function fetchWeather() {
+  var url = "https://api.open-meteo.com/v1/forecast"
+    + "?latitude=" + LAT + "&longitude=" + LON
+    + "&current=temperature_2m,weather_code"
+    + "&daily=temperature_2m_max,temperature_2m_min,weather_code"
+    + "&temperature_unit=fahrenheit&windspeed_unit=mph"
+    + "&timezone=America%2FChicago&forecast_days=2";
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+  xhr.timeout = 15000;
+  xhr.onload = function () {
+    if (xhr.status >= 200 && xhr.status < 300) {
+      try { renderWeather(JSON.parse(xhr.responseText)); } catch (e) {}
+    }
+  };
+  xhr.onerror   = function () {};
+  xhr.ontimeout = function () {};
+  xhr.send();
+}
+
+function renderWeather(d) {
+  if (!d || !d.current || !d.daily) return;
+
+  var nowTemp = Math.round(d.current.temperature_2m);
+  var nowMeta = wmoMeta(d.current.weather_code);
+  var hi = Math.round(d.daily.temperature_2m_max[0]);
+  var lo = Math.round(d.daily.temperature_2m_min[0]);
+  var tHi = Math.round(d.daily.temperature_2m_max[1]);
+  var tLo = Math.round(d.daily.temperature_2m_min[1]);
+  var tMeta = wmoMeta(d.daily.weather_code[1]);
+
+  document.getElementById("weather-icon").textContent = nowMeta[0];
+  document.getElementById("weather-temp").innerHTML  = nowTemp + "&deg;";
+  document.getElementById("weather-cond").textContent = nowMeta[1];
+  document.getElementById("weather-hi-lo").innerHTML  =
+    "Today &nbsp; H: " + hi + "&deg; &nbsp; L: " + lo + "&deg;";
+  document.getElementById("weather-tomorrow").innerHTML =
+    '<span class="label">Tomorrow:</span> ' + tMeta[0] + ' ' + tMeta[1] +
+    ' &nbsp; H: ' + tHi + '&deg; &nbsp; L: ' + tLo + '&deg;';
+
+  try {
+    var stamp = new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/Chicago",
+      hour: "numeric", minute: "2-digit", hour12: true
+    }).format(new Date());
+    document.getElementById("weather-updated").textContent = "Updated " + stamp;
+  } catch (e) {}
+}
+
+fetchWeather();
+setInterval(fetchWeather, WEATHER_REFRESH_MS);
+
+/* ============================================================
+   SLIDESHOW  -  one reused <video>, one reused <img>
+   ============================================================ */
+
+var stage = document.getElementById("stage");
+var slideIndex  = 0;
+var safetyTimer = null;
+var imageTimer  = null;
+var advancing   = false;
+var hasVideoSrc = false;   // <-- guards against bogus error events on empty src
+var hasImageSrc = false;
+
+var vidEl = document.createElement("video");
+vidEl.className = "slide";
+vidEl.muted = true;
+vidEl.playsInline = true;
+vidEl.controls = false;
+vidEl.preload = "none";
+stage.appendChild(vidEl);
+
+var imgEl = document.createElement("img");
+imgEl.className = "slide";
+stage.appendChild(imgEl);
+
+vidEl.onended = function () { advance(); };
+vidEl.onerror = function () { if (hasVideoSrc) setTimeout(advance, 100); };
+imgEl.onerror = function () { if (hasImageSrc) setTimeout(advance, 100); };
+
+function clearTimers() {
+  if (safetyTimer) { clearTimeout(safetyTimer); safetyTimer = null; }
+  if (imageTimer)  { clearTimeout(imageTimer);  imageTimer  = null; }
+}
+
+function unloadVideo() {
+  if (!hasVideoSrc) return;       // never call load() on an empty <video>
+  try { vidEl.pause(); } catch (e) {}
+  vidEl.removeAttribute("src");
+  vidEl.load();
+  hasVideoSrc = false;
+}
+
+function showImage(src, seconds) {
+  vidEl.classList.remove("active");
+  unloadVideo();
+
+  imgEl.src = src;
+  hasImageSrc = true;
+  void imgEl.offsetWidth;
+  imgEl.classList.add("active");
+
+  var ms = (seconds && seconds > 0 ? seconds : 8) * 1000;
+  imageTimer = setTimeout(advance, ms);
+}
+
+function showVideo(src) {
+  imgEl.classList.remove("active");
+  unloadVideo();
+
+  vidEl.src = src;
+  hasVideoSrc = true;
+  vidEl.load();
+  try {
+    var p = vidEl.play();
+    if (p && p.catch) p.catch(function () {});   // swallow; don't auto-advance
+  } catch (e) {}
+
+  void vidEl.offsetWidth;
+  vidEl.classList.add("active");
+
+  safetyTimer = setTimeout(advance, 5 * 60 * 1000);
+}
+
+function playNext() {
+  clearTimers();
+
+  if (!PLAYLIST || PLAYLIST.length === 0) {
+    setTimeout(playNext, 30000);
+    return;
+  }
+
+  var item = PLAYLIST[slideIndex];
+  slideIndex = (slideIndex + 1) % PLAYLIST.length;
+
+  if      (item.type === "image") showImage(item.src, item.seconds);
+  else if (item.type === "video") showVideo(item.src);
+  else    setTimeout(playNext, 100);
+}
+
+function advance() {
+  if (advancing) return;
+  advancing = true;
+  setTimeout(function () { advancing = false; playNext(); }, 50);
+}
+
+playNext();
+</script>
+</body>
+</html>
